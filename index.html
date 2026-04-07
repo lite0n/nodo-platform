@@ -1,0 +1,1225 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@400;500;700;800&family=Inter:wght@300;400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#090b0f;--bg2:#0f1117;--bg3:#161b24;--bg4:#1c2230;
+--b1:rgba(255,255,255,0.06);--b2:rgba(255,255,255,0.10);--b3:rgba(255,255,255,0.16);
+--t1:#e9ecf4;--t2:#8b92a4;--t3:#4a5166;
+--acc:#3b82f6;--acc2:#2563eb;
+--red:#ef4444;--amber:#f59e0b;--green:#22c55e;--teal:#14b8a6;--purple:#a78bfa;--pink:#ec4899;
+--mono:'IBM Plex Mono',monospace;--sans:'Inter',sans-serif;--disp:'Syne',sans-serif;
+}
+body{background:var(--bg);color:var(--t1);font-family:var(--sans);font-size:13px;overflow-x:hidden}
+.app{display:grid;grid-template-columns:52px 200px 1fr;grid-template-rows:48px 1fr;min-height:100vh}
+
+/* TOPBAR */
+.topbar{grid-column:1/-1;background:var(--bg2);border-bottom:0.5px solid var(--b1);display:flex;align-items:center;padding:0 14px;gap:14px;z-index:10}
+.logo{font-family:var(--disp);font-size:18px;font-weight:800;letter-spacing:-1px;color:var(--t1);white-space:nowrap}
+.logo em{color:var(--acc);font-style:normal}
+.platform-tag{font-family:var(--mono);font-size:9px;color:var(--t3);letter-spacing:1.5px;text-transform:uppercase}
+.tsearch{flex:1;max-width:340px;background:var(--bg3);border:0.5px solid var(--b2);border-radius:7px;display:flex;align-items:center;gap:8px;padding:0 10px;height:30px}
+.tsearch input{background:none;border:none;outline:none;color:var(--t1);font-size:12px;width:100%;font-family:var(--sans)}
+.tsearch input::placeholder{color:var(--t3)}
+.tsrch{color:var(--t3);font-size:12px}
+.tr{margin-left:auto;display:flex;align-items:center;gap:10px}
+.ws-row{display:flex;gap:5px}
+.wsc{font-size:10px;padding:3px 8px;border-radius:5px;font-family:var(--mono);cursor:pointer;border:0.5px solid var(--b2);color:var(--t3);background:var(--bg3);transition:all .15s}
+.wsc.on{background:rgba(59,130,246,.12);color:#60a5fa;border-color:rgba(59,130,246,.3)}
+.abadge{background:rgba(239,68,68,.12);color:#f87171;border:0.5px solid rgba(239,68,68,.25);border-radius:6px;padding:3px 9px;font-size:10px;font-family:var(--mono);cursor:pointer;display:flex;align-items:center;gap:5px}
+.dot-r{width:5px;height:5px;border-radius:50%;background:var(--red);animation:blink 1.4s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.upill{background:var(--bg3);border:0.5px solid var(--b2);border-radius:20px;padding:4px 10px 4px 4px;display:flex;align-items:center;gap:7px;cursor:pointer}
+.uav{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff}
+.uname{font-size:11px;color:var(--t2)}
+
+/* ICON NAV */
+.inav{background:var(--bg2);border-right:0.5px solid var(--b1);display:flex;flex-direction:column;align-items:center;padding:10px 0;gap:2px}
+.ni{width:34px;height:34px;border-radius:7px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--t3);transition:all .15s;border:none;background:none;font-size:14px}
+.ni:hover{color:var(--t2);background:var(--bg3)}
+.ni.on{color:var(--acc);background:rgba(59,130,246,.1)}
+.ndiv{width:22px;height:0.5px;background:var(--b1);margin:5px 0}
+.ni-bot{margin-top:auto}
+
+/* SIDEBAR */
+.sidebar{background:var(--bg2);border-right:0.5px solid var(--b1);padding:14px 0;overflow-y:auto}
+.stitle{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--t3);padding:0 14px;margin-bottom:7px;font-family:var(--mono)}
+.ssec{margin-bottom:20px}
+.si{display:flex;align-items:center;gap:9px;padding:6px 14px;cursor:pointer;transition:background .1s}
+.si:hover{background:var(--bg3)}
+.si.on{background:rgba(59,130,246,.07);border-right:2px solid var(--acc)}
+.si-icon{font-size:13px;width:16px;text-align:center;color:var(--t3)}
+.si.on .si-icon{color:var(--acc)}
+.si-lbl{font-size:12px;color:var(--t2);flex:1}
+.si.on .si-lbl{color:var(--t1)}
+.sbadge{font-size:9px;font-family:var(--mono);background:rgba(59,130,246,.12);color:#60a5fa;border-radius:3px;padding:1px 5px}
+.sbadge.r{background:rgba(239,68,68,.12);color:#f87171}
+.sbadge.a{background:rgba(245,158,11,.12);color:#fbbf24}
+.sbadge.g{background:rgba(34,197,94,.1);color:#4ade80}
+
+/* MAIN */
+.main{overflow-y:auto;background:var(--bg)}
+.page{display:none;padding:18px;flex-direction:column;gap:14px}
+.page.active{display:flex}
+
+/* CARDS */
+.card{background:var(--bg2);border:0.5px solid var(--b1);border-radius:10px;padding:14px 16px}
+.card-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.card-title{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--t3);font-family:var(--mono)}
+.card-act{font-size:11px;color:var(--acc);cursor:pointer;font-family:var(--mono)}
+
+/* STATS ROW */
+.stats4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.stat{background:var(--bg2);border:0.5px solid var(--b1);border-radius:10px;padding:13px 15px}
+.stat-lbl{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--t3);font-family:var(--mono);margin-bottom:7px}
+.stat-val{font-size:24px;font-weight:700;font-family:var(--disp);line-height:1;margin-bottom:3px}
+.stat-sub{font-size:10px;color:var(--t3);font-family:var(--mono)}
+.up{color:#4ade80}.dn{color:#f87171}
+.mini-bar{height:2px;background:var(--bg4);border-radius:1px;margin-top:8px}
+.mini-fill{height:100%;border-radius:1px}
+
+/* GRID LAYOUT */
+.g2{display:grid;grid-template-columns:1fr 300px;gap:14px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+
+/* FEED */
+.feed-filters{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px}
+.fc{font-size:10px;padding:3px 9px;border-radius:5px;cursor:pointer;font-family:var(--mono);border:0.5px solid var(--b2);color:var(--t3);background:var(--bg2);transition:all .15s}
+.fc.on{background:rgba(59,130,246,.1);color:#60a5fa;border-color:rgba(59,130,246,.25)}
+.fi{background:var(--bg2);border:0.5px solid var(--b1);border-radius:9px;padding:13px 15px;cursor:pointer;transition:border-color .15s;margin-bottom:7px}
+.fi:hover{border-color:var(--b2)}
+.fi.cr{border-left:2.5px solid var(--red);border-radius:0 9px 9px 0}
+.fi.hi{border-left:2.5px solid var(--amber);border-radius:0 9px 9px 0}
+.fi.me{border-left:2.5px solid #60a5fa;border-radius:0 9px 9px 0}
+.fi.lo{border-left:2.5px solid var(--t3);border-radius:0 9px 9px 0}
+.fi-hd{display:flex;align-items:flex-start;gap:9px;margin-bottom:7px}
+.src{font-size:8px;font-family:var(--mono);text-transform:uppercase;letter-spacing:1px;padding:2px 6px;border-radius:3px;white-space:nowrap;margin-top:1px}
+.sn{background:rgba(59,130,246,.1);color:#60a5fa}
+.sb{background:rgba(239,68,68,.1);color:#f87171}
+.so{background:rgba(20,184,166,.1);color:#2dd4bf}
+.sf{background:rgba(167,139,250,.1);color:#c4b5fd}
+.ss{background:rgba(251,191,36,.1);color:#fbbf24}
+.sfr{background:rgba(34,197,94,.1);color:#4ade80}
+.fi-title{font-size:12px;font-weight:500;color:var(--t1);line-height:1.4;flex:1}
+.rb{font-size:8px;font-family:var(--mono);padding:2px 6px;border-radius:3px}
+.rc{background:rgba(239,68,68,.12);color:#f87171}
+.rh{background:rgba(245,158,11,.12);color:#fbbf24}
+.rm{background:rgba(59,130,246,.1);color:#60a5fa}
+.rl{background:rgba(80,85,100,.15);color:var(--t3)}
+.fi-ex{font-size:11px;color:var(--t2);line-height:1.5;margin-bottom:8px}
+.fi-ft{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.fi-time{font-size:9px;color:var(--t3);font-family:var(--mono);margin-left:auto}
+.ep{font-size:9px;padding:2px 7px;border-radius:8px;background:var(--bg3);border:0.5px solid var(--b2);color:var(--t2);font-family:var(--mono);cursor:pointer}
+.ep:hover{color:var(--t1);border-color:var(--acc)}
+
+/* ENTITY MONITOR */
+.entity-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.ent-card{background:var(--bg2);border:0.5px solid var(--b1);border-radius:9px;padding:14px;cursor:pointer;transition:border-color .15s}
+.ent-card:hover{border-color:var(--b2)}
+.ent-card.critical{border-top:2px solid var(--red)}
+.ent-card.high{border-top:2px solid var(--amber)}
+.ent-card.med{border-top:2px solid #60a5fa}
+.ent-top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.ent-ico{width:34px;height:34px;border-radius:8px;background:var(--bg3);border:0.5px solid var(--b2);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.ent-name{font-size:13px;font-weight:500;color:var(--t1)}
+.ent-type{font-size:10px;color:var(--t3);font-family:var(--mono)}
+.ent-score-big{font-size:28px;font-weight:800;font-family:var(--disp);line-height:1}
+.ent-score-lbl{font-size:9px;color:var(--t3);font-family:var(--mono)}
+.ent-stats{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
+.ent-st{background:var(--bg3);border-radius:5px;padding:7px;text-align:center}
+.ent-st-val{font-size:16px;font-weight:700;font-family:var(--disp)}
+.ent-st-lbl{font-size:9px;color:var(--t3);font-family:var(--mono)}
+.score-hi{color:#f87171}.score-me{color:#fbbf24}.score-lo{color:#4ade80}
+
+/* ALERTS PAGE */
+.alert-cfg-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.alert-card{background:var(--bg2);border:0.5px solid var(--b1);border-radius:9px;padding:14px}
+.alert-card.triggered{background:rgba(239,68,68,.03);border-color:rgba(239,68,68,.18)}
+.alert-card.pending{border-color:rgba(245,158,11,.15)}
+.alert-card-hd{display:flex;align-items:center;gap:9px;margin-bottom:10px}
+.adot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.ad-r{background:var(--red);box-shadow:0 0 8px rgba(239,68,68,.4)}
+.ad-a{background:var(--amber)}
+.ad-g{background:var(--t3)}
+.ad-b{background:var(--acc)}
+.alert-kw{font-size:13px;font-weight:500;color:var(--t1)}
+.alert-meta{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.alert-tag{font-size:9px;font-family:var(--mono);padding:2px 7px;border-radius:3px;background:var(--bg3);color:var(--t2)}
+.alert-desc{font-size:11px;color:var(--t2);line-height:1.5;margin-bottom:8px}
+.alert-time{font-size:10px;color:var(--t3);font-family:var(--mono)}
+.alert-footer{display:flex;gap:6px;margin-top:10px}
+.btn-sm{font-size:10px;padding:4px 10px;border-radius:5px;cursor:pointer;font-family:var(--mono);border:0.5px solid var(--b2);color:var(--t2);background:var(--bg3);transition:all .15s}
+.btn-sm:hover{color:var(--t1);border-color:var(--b3)}
+.btn-sm.danger{border-color:rgba(239,68,68,.25);color:#f87171}
+.btn-sm.primary{background:rgba(59,130,246,.1);color:#60a5fa;border-color:rgba(59,130,246,.25)}
+
+/* TIMELINE PAGE */
+.tl-full{display:flex;flex-direction:column;gap:0;padding-left:16px;border-left:1px solid var(--b2)}
+.tl-item-full{display:flex;gap:14px;padding-bottom:18px;margin-left:-21px}
+.tl-dot-full{width:12px;height:12px;border-radius:50%;flex-shrink:0;margin-top:3px;border:2px solid var(--bg2)}
+.tl-content-full{background:var(--bg2);border:0.5px solid var(--b1);border-radius:9px;padding:12px 14px;flex:1;cursor:pointer;transition:border-color .15s}
+.tl-content-full:hover{border-color:var(--b2)}
+.tl-time-full{font-size:9px;font-family:var(--mono);color:var(--t3);margin-bottom:4px}
+.tl-title-full{font-size:12px;font-weight:500;color:var(--t1);margin-bottom:4px}
+.tl-body-full{font-size:11px;color:var(--t2);line-height:1.5}
+.tl-sources{display:flex;gap:5px;margin-top:8px;flex-wrap:wrap}
+
+/* REPORT / BRIEFING */
+.briefing-form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-label{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--t3);font-family:var(--mono)}
+.form-input{background:var(--bg3);border:0.5px solid var(--b2);border-radius:7px;padding:8px 11px;color:var(--t1);font-size:12px;font-family:var(--sans);outline:none}
+.form-input:focus{border-color:var(--acc)}
+.form-select{background:var(--bg3);border:0.5px solid var(--b2);border-radius:7px;padding:8px 11px;color:var(--t1);font-size:12px;font-family:var(--sans);outline:none;width:100%}
+.template-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:4px}
+.tpl-card{background:var(--bg3);border:0.5px solid var(--b2);border-radius:8px;padding:10px;cursor:pointer;transition:all .15s;text-align:center}
+.tpl-card:hover{border-color:var(--b3)}
+.tpl-card.on{background:rgba(59,130,246,.08);border-color:rgba(59,130,246,.3)}
+.tpl-ico{font-size:18px;margin-bottom:5px}
+.tpl-name{font-size:10px;font-family:var(--mono);color:var(--t2)}
+.tpl-card.on .tpl-name{color:#60a5fa}
+.gen-btn{width:100%;padding:11px;border-radius:8px;background:rgba(59,130,246,.1);border:0.5px solid rgba(59,130,246,.3);color:#60a5fa;font-size:11px;font-family:var(--mono);cursor:pointer;letter-spacing:.5px;text-transform:uppercase;transition:all .15s;margin-top:8px}
+.gen-btn:hover{background:rgba(59,130,246,.18)}
+.preview-doc{background:var(--bg3);border:0.5px solid var(--b2);border-radius:10px;padding:20px;min-height:300px}
+.doc-header{border-bottom:1px solid var(--b2);padding-bottom:14px;margin-bottom:16px}
+.doc-logo{font-family:var(--disp);font-size:16px;font-weight:800;color:var(--acc)}
+.doc-title{font-size:18px;font-weight:700;font-family:var(--disp);color:var(--t1);margin-bottom:3px}
+.doc-subtitle{font-size:11px;color:var(--t3);font-family:var(--mono)}
+.doc-section{margin-bottom:16px}
+.doc-sec-title{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--t3);font-family:var(--mono);margin-bottom:8px;border-bottom:0.5px solid var(--b1);padding-bottom:5px}
+.doc-finding{display:flex;gap:10px;padding:8px;background:var(--bg4);border-radius:6px;margin-bottom:6px}
+.doc-find-n{font-size:18px;font-weight:800;font-family:var(--disp);color:var(--red);line-height:1}
+.doc-find-txt{font-size:11px;color:var(--t2);line-height:1.5}
+.doc-find-txt strong{color:var(--t1);font-weight:500}
+
+/* COMMUNITY */
+.comm-grid{display:grid;grid-template-columns:1fr 260px;gap:14px}
+.post-list{display:flex;flex-direction:column;gap:8px}
+.post{background:var(--bg2);border:0.5px solid var(--b1);border-radius:9px;padding:14px;cursor:pointer;transition:border-color .15s}
+.post:hover{border-color:var(--b2)}
+.post-hd{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.post-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0}
+.post-author{font-size:12px;font-weight:500;color:var(--t1)}
+.post-role{font-size:10px;color:var(--t3);font-family:var(--mono)}
+.post-time{font-size:10px;color:var(--t3);font-family:var(--mono);margin-left:auto}
+.post-cat{font-size:9px;font-family:var(--mono);padding:2px 7px;border-radius:3px}
+.cat-intel{background:rgba(59,130,246,.1);color:#60a5fa}
+.cat-breach{background:rgba(239,68,68,.1);color:#f87171}
+.cat-method{background:rgba(167,139,250,.1);color:#c4b5fd}
+.cat-tool{background:rgba(20,184,166,.1);color:#2dd4bf}
+.post-title{font-size:13px;font-weight:500;color:var(--t1);margin-bottom:5px}
+.post-body{font-size:11px;color:var(--t2);line-height:1.5}
+.post-footer{display:flex;align-items:center;gap:12px;margin-top:10px}
+.post-stat{font-size:10px;color:var(--t3);font-family:var(--mono);display:flex;align-items:center;gap:4px}
+.leaderboard{background:var(--bg2);border:0.5px solid var(--b1);border-radius:9px;padding:14px}
+.lb-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:0.5px solid var(--b1)}
+.lb-row:last-child{border-bottom:none}
+.lb-rank{font-size:11px;font-family:var(--mono);color:var(--t3);width:20px;text-align:center}
+.lb-av{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff}
+.lb-name{font-size:12px;color:var(--t1);flex:1}
+.lb-pts{font-size:10px;font-family:var(--mono);color:var(--acc)}
+
+/* SETTINGS */
+.settings-grid{display:grid;grid-template-columns:200px 1fr;gap:16px;min-height:400px}
+.settings-nav{background:var(--bg2);border:0.5px solid var(--b1);border-radius:9px;padding:10px 0;height:fit-content}
+.sn-item{padding:7px 14px;cursor:pointer;font-size:12px;color:var(--t2);transition:background .1s;display:flex;align-items:center;gap:8px}
+.sn-item:hover{background:var(--bg3)}
+.sn-item.on{color:var(--t1);background:rgba(59,130,246,.07)}
+.settings-panel{background:var(--bg2);border:0.5px solid var(--b1);border-radius:9px;padding:18px}
+.sp-title{font-size:13px;font-weight:500;color:var(--t1);margin-bottom:4px}
+.sp-desc{font-size:11px;color:var(--t3);margin-bottom:18px;line-height:1.5}
+.setting-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:0.5px solid var(--b1)}
+.setting-row:last-child{border-bottom:none}
+.sr-label{font-size:12px;color:var(--t1)}
+.sr-sub{font-size:10px;color:var(--t3);margin-top:2px}
+.toggle{width:36px;height:20px;border-radius:10px;background:var(--bg4);border:0.5px solid var(--b2);cursor:pointer;position:relative;transition:background .2s;flex-shrink:0}
+.toggle.on{background:var(--acc)}
+.toggle-dot{width:14px;height:14px;border-radius:50%;background:var(--t3);position:absolute;top:2px;left:3px;transition:all .2s}
+.toggle.on .toggle-dot{left:19px;background:#fff}
+
+/* SOURCE RELIABILITY */
+.src-table{width:100%;border-collapse:collapse}
+.src-table td,.src-table th{padding:8px 10px;border-bottom:0.5px solid var(--b1)}
+.src-table th{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--t3);font-family:var(--mono);font-weight:400}
+.src-table tr:last-child td{border-bottom:none}
+.rel-wrap{width:70px;height:4px;background:var(--bg4);border-radius:2px;display:inline-block;vertical-align:middle}
+.rel-fill{height:100%;border-radius:2px}
+.tier-badge{font-size:8px;font-family:var(--mono);padding:2px 6px;border-radius:3px}
+.t1{background:rgba(34,197,94,.1);color:#4ade80}
+.t2b{background:rgba(245,158,11,.1);color:#fbbf24}
+.t3b{background:rgba(239,68,68,.1);color:#f87171}
+
+/* CORRELATION MAP */
+.corr-map{background:var(--bg3);border-radius:9px;padding:14px;min-height:200px;position:relative;overflow:hidden}
+svg.cmap{width:100%;height:220px}
+
+/* DEDUP INDICATOR */
+.dedup-bar{display:flex;height:8px;border-radius:4px;overflow:hidden;gap:2px;margin-top:6px}
+
+/* WORKSPACE DETAIL */
+.ws-detail-header{background:var(--bg2);border:0.5px solid var(--b1);border-radius:9px;padding:16px;margin-bottom:14px}
+.ws-title-big{font-size:20px;font-weight:800;font-family:var(--disp);color:var(--t1);margin-bottom:3px}
+.ws-meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.ws-badge{font-size:9px;font-family:var(--mono);padding:2px 8px;border-radius:4px;background:var(--bg3);border:0.5px solid var(--b2);color:var(--t2)}
+.notes-area{background:var(--bg3);border:0.5px solid var(--b2);border-radius:7px;padding:10px;min-height:80px;font-size:12px;color:var(--t2);font-family:var(--sans);outline:none;width:100%;resize:none}
+.notes-area:focus{border-color:var(--acc)}
+.tag-input-row{display:flex;gap:6px;align-items:center}
+.tag-list{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.tag{font-size:9px;font-family:var(--mono);padding:2px 8px;border-radius:3px;background:var(--bg4);color:var(--t2);border:0.5px solid var(--b2);cursor:pointer}
+.tag:hover{border-color:var(--red);color:#f87171}
+.collab-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:0.5px solid var(--b1)}
+.collab-av{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff}
+.collab-name{font-size:12px;color:var(--t1);flex:1}
+.collab-role{font-size:10px;color:var(--t3);font-family:var(--mono)}
+</style>
+
+<div class="app" id="APP">
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="logo">No<em>·</em>do</div>
+  <div class="platform-tag">OSINT Platform</div>
+  <div class="tsearch">
+    <span class="tsrch">⌕</span>
+    <input type="text" placeholder="Cerca entità, keyword, dominio, volo, IP..." id="gsearch" />
+  </div>
+  <div class="tr">
+    <div class="ws-row">
+      <div class="wsc on" onclick="switchWS(this,'Caso #04')">Caso #04</div>
+      <div class="wsc" onclick="switchWS(this,'Cyber Ops')">Cyber Ops</div>
+      <div class="wsc" onclick="switchWS(this,'Stampa')">Stampa</div>
+      <div class="wsc" style="color:var(--acc)">+</div>
+    </div>
+    <div class="abadge"><div class="dot-r"></div>7 alert</div>
+    <div class="upill">
+      <div class="uav">MA</div>
+      <div class="uname">Marco A.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ICON NAV -->
+<div class="inav">
+  <button class="ni on" onclick="nav('dashboard')" title="Dashboard">⊞</button>
+  <button class="ni" onclick="nav('feed')" title="Feed live">≡</button>
+  <button class="ni" onclick="nav('entities')" title="Entity Monitor">◈</button>
+  <button class="ni" onclick="nav('alerts')" title="Alert">◉</button>
+  <button class="ni" onclick="nav('timeline')" title="Timeline">⊙</button>
+  <div class="ndiv"></div>
+  <button class="ni" onclick="nav('briefing')" title="Briefing & Report">▦</button>
+  <button class="ni" onclick="nav('community')" title="Community">⬡</button>
+  <button class="ni" onclick="nav('workspace')" title="Workspace">◧</button>
+  <div class="ndiv"></div>
+  <button class="ni ni-bot" onclick="nav('settings')" title="Impostazioni">⚙</button>
+</div>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="SIDEBAR">
+  <div class="ssec">
+    <div class="stitle">Canali</div>
+    <div class="si on" onclick="navFeed('all')"><span class="si-icon">◈</span><span class="si-lbl">Tutti i feed</span><span class="sbadge">142</span></div>
+    <div class="si" onclick="navFeed('news')"><span class="si-icon">◉</span><span class="si-lbl">Cronaca & News</span><span class="sbadge">58</span></div>
+    <div class="si" onclick="navFeed('breach')"><span class="si-icon">⬡</span><span class="si-lbl">Data Breach</span><span class="sbadge r">12</span></div>
+    <div class="si" onclick="navFeed('osint')"><span class="si-icon">◎</span><span class="si-lbl">OSINT / Segnali</span><span class="sbadge">34</span></div>
+    <div class="si" onclick="navFeed('flight')"><span class="si-icon">✈</span><span class="si-lbl">Voli & ADS-B</span><span class="sbadge a">7</span></div>
+    <div class="si" onclick="navFeed('forum')"><span class="si-icon">◌</span><span class="si-lbl">Forum & Dark</span><span class="sbadge">21</span></div>
+    <div class="si" onclick="navFeed('social')"><span class="si-icon">◑</span><span class="si-lbl">Social Monitor</span><span class="sbadge">10</span></div>
+  </div>
+  <div class="ssec">
+    <div class="stitle">Workspace</div>
+    <div class="si on"><span class="si-icon" style="color:#60a5fa">◈</span><span class="si-lbl">Caso #04 — TechCorp</span></div>
+    <div class="si"><span class="si-icon" style="color:#f87171">◈</span><span class="si-lbl">Ops Ciclone</span></div>
+    <div class="si"><span class="si-icon" style="color:#fbbf24">◈</span><span class="si-lbl">Cliente Alfa</span></div>
+    <div class="si"><span class="si-icon" style="color:var(--acc)">+</span><span class="si-lbl" style="color:var(--acc)">Nuovo workspace</span></div>
+  </div>
+  <div class="ssec">
+    <div class="stitle">Alert attivi</div>
+    <div class="si"><span class="si-icon" style="color:#f87171">◉</span><span class="si-lbl">techcorp.it</span><span class="sbadge r">3</span></div>
+    <div class="si"><span class="si-icon" style="color:#fbbf24">◉</span><span class="si-lbl">Mario Rossi</span><span class="sbadge a">2</span></div>
+    <div class="si"><span class="si-icon" style="color:var(--acc)">◉</span><span class="si-lbl">volo AZ1234</span><span class="sbadge">1</span></div>
+    <div class="si"><span class="si-icon" style="color:var(--t3)">◉</span><span class="si-lbl">CVE-2024-*</span><span class="sbadge g">live</span></div>
+  </div>
+</div>
+
+<!-- MAIN AREA -->
+<div class="main" id="MAIN">
+
+<!-- PAGE: DASHBOARD -->
+<div class="page active" id="page-dashboard">
+  <div class="stats4">
+    <div class="stat">
+      <div class="stat-lbl">Segnali oggi</div>
+      <div class="stat-val" style="color:#60a5fa">142</div>
+      <div class="stat-sub up">↑ 18% vs ieri</div>
+      <div class="mini-bar"><div class="mini-fill" style="width:72%;background:#60a5fa"></div></div>
+    </div>
+    <div class="stat">
+      <div class="stat-lbl">Alert critici</div>
+      <div class="stat-val" style="color:#f87171">7</div>
+      <div class="stat-sub dn">↑ 3 nuovi</div>
+      <div class="mini-bar"><div class="mini-fill" style="width:35%;background:#f87171"></div></div>
+    </div>
+    <div class="stat">
+      <div class="stat-lbl">Entità monitorate</div>
+      <div class="stat-val" style="color:#fbbf24">23</div>
+      <div class="stat-sub dn">2 ad alto rischio</div>
+      <div class="mini-bar"><div class="mini-fill" style="width:55%;background:#fbbf24"></div></div>
+    </div>
+    <div class="stat">
+      <div class="stat-lbl">Risk score globale</div>
+      <div class="stat-val" style="color:#f87171">74</div>
+      <div class="stat-sub dn">↑ alto — in crescita</div>
+      <div class="mini-bar"><div class="mini-fill" style="width:74%;background:#f87171"></div></div>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div>
+      <div class="card-hd"><span class="card-title">Feed recente — top segnali</span><span class="card-act" onclick="nav('feed')">vedi tutti →</span></div>
+      <div class="fi cr">
+        <div class="fi-hd"><span class="src sb">BREACH</span><div class="fi-title">Dati TechCorp S.p.A. in dump underground — 850k record esposti</div><span class="rb rc">CRITICO</span></div>
+        <div class="fi-ex">4.2GB di email, hash password e dati anagrafici pubblicati su forum underground. Correlazione attiva con entità monitorate nel workspace corrente.</div>
+        <div class="fi-ft"><span class="ep">TechCorp</span><span class="ep">techcorp.it</span><span class="ep">850k record</span><span class="fi-time">14:23</span></div>
+      </div>
+      <div class="fi hi">
+        <div class="fi-hd"><span class="src sn">NEWS</span><div class="fi-title">Dirigente indagato per frode fiscale — GdF sequestra beni in mattinata</div><span class="rb rh">ALTO</span></div>
+        <div class="fi-ex">Decreto di sequestro preventivo eseguito dalla Guardia di Finanza. Il nominativo compare nella lista entità del workspace "Caso #04".</div>
+        <div class="fi-ft"><span class="ep">Mario Rossi</span><span class="ep">GdF</span><span class="ep">Milano</span><span class="fi-time">13:47</span></div>
+      </div>
+      <div class="fi me">
+        <div class="fi-hd"><span class="src sf">VOLO</span><div class="fi-title">AZ1234 — deviazione anomala rotta, atterraggio non pianificato Catania</div><span class="rb rm">MEDIO</span></div>
+        <div class="fi-ft"><span class="ep">AZ1234</span><span class="ep">CTG</span><span class="ep">ADS-B</span><span class="fi-time">12:31</span></div>
+      </div>
+
+      <div style="margin-top:14px">
+        <div class="card-hd"><span class="card-title">Correlazione multi-fonte</span><span class="card-act" onclick="nav('entities')">dettaglio entità →</span></div>
+        <div class="corr-map">
+          <svg class="cmap" viewBox="0 0 560 200">
+            <defs>
+              <marker id="arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L6,3 z" fill="rgba(255,255,255,0.2)"/>
+              </marker>
+            </defs>
+            <line x1="200" y1="100" x2="120" y2="50" stroke="rgba(239,68,68,.4)" stroke-width="1.5" marker-end="url(#arr)"/>
+            <line x1="200" y1="100" x2="120" y2="150" stroke="rgba(245,158,11,.4)" stroke-width="1.5" marker-end="url(#arr)"/>
+            <line x1="200" y1="100" x2="300" y2="60" stroke="rgba(59,130,246,.4)" stroke-width="1.5" marker-end="url(#arr)"/>
+            <line x1="200" y1="100" x2="300" y2="140" stroke="rgba(167,139,250,.4)" stroke-width="1.5" marker-end="url(#arr)"/>
+            <line x1="300" y1="60" x2="420" y2="40" stroke="rgba(59,130,246,.25)" stroke-width="1" marker-end="url(#arr)"/>
+            <line x1="300" y1="140" x2="420" y2="160" stroke="rgba(167,139,250,.25)" stroke-width="1" marker-end="url(#arr)"/>
+            <line x1="120" y1="50" x2="420" y2="40" stroke="rgba(239,68,68,.15)" stroke-width="1" stroke-dasharray="3,3"/>
+            <circle cx="200" cy="100" r="28" fill="rgba(59,130,246,.15)" stroke="rgba(59,130,246,.5)" stroke-width="1.5"/>
+            <text x="200" y="96" text-anchor="middle" fill="#60a5fa" font-size="9" font-family="IBM Plex Mono">TechCorp</text>
+            <text x="200" y="108" text-anchor="middle" fill="#3b82f6" font-size="8" font-family="IBM Plex Mono">ENTITÀ HUB</text>
+            <circle cx="120" cy="50" r="20" fill="rgba(239,68,68,.12)" stroke="rgba(239,68,68,.4)" stroke-width="1"/>
+            <text x="120" y="46" text-anchor="middle" fill="#f87171" font-size="8" font-family="IBM Plex Mono">BREACH</text>
+            <text x="120" y="57" text-anchor="middle" fill="#f87171" font-size="7" font-family="IBM Plex Mono">850k</text>
+            <circle cx="120" cy="150" r="20" fill="rgba(245,158,11,.12)" stroke="rgba(245,158,11,.4)" stroke-width="1"/>
+            <text x="120" y="146" text-anchor="middle" fill="#fbbf24" font-size="8" font-family="IBM Plex Mono">M.Rossi</text>
+            <text x="120" y="157" text-anchor="middle" fill="#fbbf24" font-size="7" font-family="IBM Plex Mono">DIRIGENTE</text>
+            <circle cx="300" cy="60" r="18" fill="rgba(59,130,246,.1)" stroke="rgba(59,130,246,.3)" stroke-width="1"/>
+            <text x="300" y="56" text-anchor="middle" fill="#93c5fd" font-size="8" font-family="IBM Plex Mono">techcorp</text>
+            <text x="300" y="67" text-anchor="middle" fill="#93c5fd" font-size="7" font-family="IBM Plex Mono">-portal.it</text>
+            <circle cx="300" cy="140" r="18" fill="rgba(167,139,250,.1)" stroke="rgba(167,139,250,.3)" stroke-width="1"/>
+            <text x="300" y="136" text-anchor="middle" fill="#c4b5fd" font-size="8" font-family="IBM Plex Mono">AZ1234</text>
+            <text x="300" y="147" text-anchor="middle" fill="#c4b5fd" font-size="7" font-family="IBM Plex Mono">VOLO</text>
+            <rect x="400" y="25" width="70" height="26" rx="5" fill="rgba(239,68,68,.08)" stroke="rgba(239,68,68,.25)" stroke-width=".5"/>
+            <text x="435" y="36" text-anchor="middle" fill="#f87171" font-size="8" font-family="IBM Plex Mono">Reputazione</text>
+            <text x="435" y="45" text-anchor="middle" fill="#f87171" font-size="7" font-family="IBM Plex Mono">DANNO</text>
+            <rect x="400" y="148" width="72" height="26" rx="5" fill="rgba(167,139,250,.08)" stroke="rgba(167,139,250,.25)" stroke-width=".5"/>
+            <text x="436" y="159" text-anchor="middle" fill="#c4b5fd" font-size="8" font-family="IBM Plex Mono">Rotta</text>
+            <text x="436" y="168" text-anchor="middle" fill="#c4b5fd" font-size="7" font-family="IBM Plex Mono">ANOMALIA</text>
+            <rect x="490" y="80" width="60" height="42" rx="5" fill="rgba(34,197,94,.06)" stroke="rgba(34,197,94,.2)" stroke-width=".5"/>
+            <text x="520" y="98" text-anchor="middle" fill="#4ade80" font-size="8" font-family="IBM Plex Mono">Social</text>
+            <text x="520" y="108" text-anchor="middle" fill="#4ade80" font-size="7" font-family="IBM Plex Mono">SPIKE 340%</text>
+            <line x1="420" y1="40" x2="490" y2="90" stroke="rgba(34,197,94,.2)" stroke-width="1" stroke-dasharray="2,3"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="card">
+        <div class="card-hd"><span class="card-title">Entity Monitor</span><span class="card-act" onclick="nav('entities')">+</span></div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:center;gap:9px">
+            <div style="width:30px;height:30px;border-radius:7px;background:var(--bg3);border:0.5px solid var(--b2);display:flex;align-items:center;justify-content:center;font-size:13px">🏢</div>
+            <div style="flex:1"><div style="font-size:12px;font-weight:500;color:var(--t1)">TechCorp S.p.A.</div><div style="font-size:9px;color:var(--t3);font-family:var(--mono)">azienda · dominio</div></div>
+            <div style="font-size:16px;font-weight:800;font-family:var(--disp);color:#f87171">87</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:9px">
+            <div style="width:30px;height:30px;border-radius:7px;background:var(--bg3);border:0.5px solid var(--b2);display:flex;align-items:center;justify-content:center;font-size:13px">👤</div>
+            <div style="flex:1"><div style="font-size:12px;font-weight:500;color:var(--t1)">Mario Rossi</div><div style="font-size:9px;color:var(--t3);font-family:var(--mono)">persona · dirigente</div></div>
+            <div style="font-size:16px;font-weight:800;font-family:var(--disp);color:#f87171">74</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:9px">
+            <div style="width:30px;height:30px;border-radius:7px;background:var(--bg3);border:0.5px solid var(--b2);display:flex;align-items:center;justify-content:center;font-size:13px">✈</div>
+            <div style="flex:1"><div style="font-size:12px;font-weight:500;color:var(--t1)">AZ1234</div><div style="font-size:9px;color:var(--t3);font-family:var(--mono)">volo · ADS-B</div></div>
+            <div style="font-size:16px;font-weight:800;font-family:var(--disp);color:#fbbf24">52</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:9px">
+            <div style="width:30px;height:30px;border-radius:7px;background:var(--bg3);border:0.5px solid var(--b2);display:flex;align-items:center;justify-content:center;font-size:13px">🌐</div>
+            <div style="flex:1"><div style="font-size:12px;font-weight:500;color:var(--t1)">techcorp-portal.it</div><div style="font-size:9px;color:var(--t3);font-family:var(--mono)">dominio · sospetto</div></div>
+            <div style="font-size:16px;font-weight:800;font-family:var(--disp);color:#fbbf24">41</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hd"><span class="card-title">Alert attivi</span><span class="card-act" onclick="nav('alerts')">tutti →</span></div>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <div style="display:flex;gap:9px;padding:8px;background:rgba(239,68,68,.04);border:0.5px solid rgba(239,68,68,.18);border-radius:7px">
+            <div class="adot ad-r" style="margin-top:3px"></div>
+            <div><div style="font-size:11px;color:var(--t1)"><span style="font-weight:500">Breach rilevato</span> — entità TechCorp presente in dump</div><div style="font-size:9px;color:var(--t3);font-family:var(--mono);margin-top:2px">14:23 · TRIGGERED</div></div>
+          </div>
+          <div style="display:flex;gap:9px;padding:8px;background:rgba(245,158,11,.03);border:0.5px solid rgba(245,158,11,.15);border-radius:7px">
+            <div class="adot ad-a" style="margin-top:3px"></div>
+            <div><div style="font-size:11px;color:var(--t1)"><span style="font-weight:500">Mario Rossi</span> — menzione in atto giudiziario</div><div style="font-size:9px;color:var(--t3);font-family:var(--mono);margin-top:2px">13:47 · TRIGGERED</div></div>
+          </div>
+          <div style="display:flex;gap:9px;padding:8px;border:0.5px solid var(--b1);border-radius:7px">
+            <div class="adot ad-b" style="margin-top:3px"></div>
+            <div><div style="font-size:11px;color:var(--t2)"><span style="font-weight:500;color:var(--t1)">Dominio</span> techcorp-portal.it — WHOIS anonimo</div><div style="font-size:9px;color:var(--t3);font-family:var(--mono);margin-top:2px">11:05 · ATTIVO</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hd"><span class="card-title">Affidabilità fonti</span></div>
+        <table class="src-table">
+          <tr><th>Fonte</th><th>Rel.</th><th>Tier</th><th>Score</th></tr>
+          <tr><td style="color:var(--t2);font-size:11px">ANSA</td><td><span class="rel-wrap"><span class="rel-fill" style="width:90%;background:#4ade80"></span></span></td><td><span class="tier-badge t1">TIER 1</span></td><td style="font-family:var(--mono);font-size:10px;color:var(--t3)">9.0</td></tr>
+          <tr><td style="color:var(--t2);font-size:11px">ADS-B Exchange</td><td><span class="rel-wrap"><span class="rel-fill" style="width:85%;background:#4ade80"></span></span></td><td><span class="tier-badge t1">TIER 1</span></td><td style="font-family:var(--mono);font-size:10px;color:var(--t3)">8.5</td></tr>
+          <tr><td style="color:var(--t2);font-size:11px">Breach Forums</td><td><span class="rel-wrap"><span class="rel-fill" style="width:55%;background:#fbbf24"></span></span></td><td><span class="tier-badge t2b">TIER 2</span></td><td style="font-family:var(--mono);font-size:10px;color:var(--t3)">5.5</td></tr>
+          <tr><td style="color:var(--t2);font-size:11px">Telegram CH</td><td><span class="rel-wrap"><span class="rel-fill" style="width:40%;background:#fbbf24"></span></span></td><td><span class="tier-badge t2b">TIER 2</span></td><td style="font-family:var(--mono);font-size:10px;color:var(--t3)">4.0</td></tr>
+          <tr><td style="color:var(--t2);font-size:11px">Forum anonimo</td><td><span class="rel-wrap"><span class="rel-fill" style="width:20%;background:#f87171"></span></span></td><td><span class="tier-badge t3b">TIER 3</span></td><td style="font-family:var(--mono);font-size:10px;color:var(--t3)">2.0</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="card-hd"><span class="card-title">Deduplicazione</span></div>
+        <div style="font-size:22px;font-weight:800;font-family:var(--disp);color:#4ade80">37</div>
+        <div style="font-size:10px;color:var(--t3);font-family:var(--mono);margin-bottom:6px">duplicati rimossi oggi</div>
+        <div class="dedup-bar">
+          <div style="flex:63;background:#60a5fa;border-radius:3px"></div>
+          <div style="flex:37;background:rgba(34,197,94,.3);border-radius:3px"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:4px">
+          <div style="font-size:9px;color:var(--t3);font-family:var(--mono)">105 unici (63%)</div>
+          <div style="font-size:9px;color:#4ade80;font-family:var(--mono)">37 deduplicate (37%)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE: FEED -->
+<div class="page" id="page-feed">
+  <div class="feed-filters" id="feed-filters">
+    <div class="fc on" onclick="filterFeed('all',this)">Tutti (142)</div>
+    <div class="fc" onclick="filterFeed('critici',this)">Critici (7)</div>
+    <div class="fc" onclick="filterFeed('news',this)">News (58)</div>
+    <div class="fc" onclick="filterFeed('breach',this)">Breach (12)</div>
+    <div class="fc" onclick="filterFeed('osint',this)">OSINT (34)</div>
+    <div class="fc" onclick="filterFeed('voli',this)">Voli (7)</div>
+    <div class="fc" onclick="filterFeed('social',this)">Social (10)</div>
+    <div class="fc" onclick="filterFeed('nv',this)">Non verificato</div>
+  </div>
+  <div id="feed-items">
+    <div class="fi cr" data-cat="breach critici">
+      <div class="fi-hd"><span class="src sb">BREACH</span><div class="fi-title">Dati utenti TechCorp S.p.A. presenti in nuovo dump — 850k record esposti su forum underground</div><span class="rb rc">CRITICO</span></div>
+      <div class="fi-ex">Un file da 4.2GB contenente email, hash password e dati anagrafici è stato pubblicato. La fonte è considerata affidabile (tier 1). Correlazione attiva con 3 entità monitorate nel workspace corrente. Possibile impatto legale e reputazionale immediato.</div>
+      <div class="fi-ft"><span class="ep">TechCorp</span><span class="ep">techcorp.it</span><span class="ep">850k record</span><span class="ep">hash bcrypt</span><span class="fi-time">14:23 · 06/04</span></div>
+    </div>
+    <div class="fi hi" data-cat="news critici">
+      <div class="fi-hd"><span class="src sn">NEWS</span><div class="fi-title">Indagato dirigente di azienda italiana per frode fiscale — GdF sequestra beni</div><span class="rb rh">ALTO</span></div>
+      <div class="fi-ex">Secondo fonti giudiziarie, la Guardia di Finanza ha eseguito questa mattina un decreto di sequestro preventivo da 4,2M€. Il nome compare nella lista entità monitorate del workspace "Caso #04". Notizia confermata da 3 fonti indipendenti.</div>
+      <div class="fi-ft"><span class="ep">Mario Rossi</span><span class="ep">GdF</span><span class="ep">Milano</span><span class="ep">giudiziario</span><span class="fi-time">13:47 · 06/04</span></div>
+    </div>
+    <div class="fi me" data-cat="voli">
+      <div class="fi-hd"><span class="src sf">VOLO</span><div class="fi-title">AZ1234 — deviazione anomala rotta, atterraggio non pianificato scalo Catania Fontanarossa</div><span class="rb rm">MEDIO</span></div>
+      <div class="fi-ex">Il volo monitorato ha modificato la rotta alle 12:15 UTC con discesa non prevista su CTG. Transponder attivo. Nessuna comunicazione ufficiale dal vettore. Il passeggero VIP monitorato era a bordo secondo manifest analizzato.</div>
+      <div class="fi-ft"><span class="ep">AZ1234</span><span class="ep">Catania CTG</span><span class="ep">ADS-B</span><span class="ep">ICAO:AZA1234</span><span class="fi-time">12:31 · 06/04</span></div>
+    </div>
+    <div class="fi lo" data-cat="osint">
+      <div class="fi-hd"><span class="src so">OSINT</span><div class="fi-title">Nuovo sottodominio registrato: admin.techcorp-portal.it — WHOIS anonimizzato, infrastruttura estera</div><span class="rb rl">BASSO</span></div>
+      <div class="fi-ex">Rilevata registrazione nella giornata odierna tramite monitoraggio DNS. Il dominio usa privacy WHOIS e punta a un'infrastruttura cloud (AS13335 Cloudflare). Pattern compatibile con preparazione campagna phishing o typosquatting.</div>
+      <div class="fi-ft"><span class="ep">admin.techcorp-portal.it</span><span class="ep">phishing</span><span class="ep">DNS</span><span class="fi-time">11:05 · 06/04</span></div>
+    </div>
+    <div class="fi me" data-cat="social">
+      <div class="fi-hd"><span class="src ss">SOCIAL</span><div class="fi-title">Spike anomalo menzioni negative brand TechCorp su X — pattern coordinato rilevato</div><span class="rb rm">MEDIO</span></div>
+      <div class="fi-ex">Rilevato incremento del 340% nelle menzioni negative nelle ultime 3 ore. Analisi degli account: bot score medio 0.73, creazione account cluster temporale sospetto. Possibile correlazione con breach rilevato alle 14:23.</div>
+      <div class="fi-ft"><span class="ep">TechCorp</span><span class="ep">reputation</span><span class="ep">X/Twitter</span><span class="ep">bot score 0.73</span><span class="fi-time">10:44 · 06/04</span></div>
+    </div>
+    <div class="fi lo" data-cat="news">
+      <div class="fi-hd"><span class="src sn">NEWS</span><div class="fi-title">Conferenza stampa MiTE su aggiornamento normativa cybersecurity italiana — DORA applicazione</div><span class="rb rl">BASSO</span></div>
+      <div class="fi-ex">Il Ministero ha comunicato nuove scadenze per la compliance DORA per le PMI italiane. Impatto potenziale per entità monitorate nel settore fintech.</div>
+      <div class="fi-ft"><span class="ep">DORA</span><span class="ep">cybersecurity</span><span class="ep">normativa</span><span class="fi-time">09:12 · 06/04</span></div>
+    </div>
+    <div class="fi lo" data-cat="forum nv">
+      <div class="fi-hd"><span class="src sfr">FORUM</span><div class="fi-title">[non verificato] Post su RaidForums clone — presunta vendita accesso VPN aziendale</div><span class="rb rl">BASSO</span></div>
+      <div class="fi-ex">Thread su forum underground con offerta di vendita accesso VPN non specificato per azienda italiana settore manifatturiero. Fonte: tier 3, non verificato. Richiede analisi manuale.</div>
+      <div class="fi-ft"><span class="ep">darkweb</span><span class="ep">VPN access</span><span class="ep">TIER 3</span><span class="ep">non verificato</span><span class="fi-time">08:55 · 06/04</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE: ENTITY MONITOR -->
+<div class="page" id="page-entities">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+    <div style="display:flex;gap:6px">
+      <div class="fc on">Tutti</div><div class="fc">Aziende</div><div class="fc">Persone</div><div class="fc">Domini</div><div class="fc">Voli</div><div class="fc">Email</div>
+    </div>
+    <button class="btn-sm primary" onclick="sendPrompt('Aggiungi una nuova entità da monitorare alla piattaforma Nodo')">+ Aggiungi entità ↗</button>
+  </div>
+  <div class="entity-grid">
+    <div class="ent-card critical">
+      <div class="ent-top">
+        <div class="ent-ico">🏢</div>
+        <div><div class="ent-name">TechCorp S.p.A.</div><div class="ent-type">azienda · Milano</div></div>
+        <div style="margin-left:auto;text-align:right"><div class="ent-score-big score-hi">87</div><div class="ent-score-lbl">risk score</div></div>
+      </div>
+      <div class="ent-stats">
+        <div class="ent-st"><div class="ent-st-val" style="color:#f87171">12</div><div class="ent-st-lbl">segnali</div></div>
+        <div class="ent-st"><div class="ent-st-val" style="color:#fbbf24">3</div><div class="ent-st-lbl">alert</div></div>
+        <div class="ent-st"><div class="ent-st-val" style="color:#60a5fa">4</div><div class="ent-st-lbl">fonti</div></div>
+        <div class="ent-st"><div class="ent-st-val" style="color:#4ade80">1</div><div class="ent-st-lbl">workspace</div></div>
+      </div>
+    </div>
+    <div class="ent-card critical">
+      <div class="ent-top">
+        <div class="ent-ico">👤</div>
+        <div><div class="ent-name">Mario Rossi</div><div class="ent-type">persona · dirigente</div></div>
+        <div style="margin-left:auto;text-align:right"><div class="ent-score-big score-hi">74</div><div class="ent-score-lbl">risk score</div></div>
+      </div>
+      <div class="ent-stats">
+        <div class="ent-st"><div class="ent-st-val" style="color:#f87171">8</div><div class="ent-st-lbl">segnali</div></div>
+        <div class="ent-st"><div class="ent-st-val" style="color:#fbbf24">2</div><div class="ent-st-lbl">alert</div></div>
+        <div class="ent-st"><div class="ent-st-val" style="color:#60a5fa">3</div><div class="ent-st-lbl">fonti</div></div>
+        <div class="ent-st"><div class="ent-st-val" style="color:#4ade80">1</div><div class="ent-st-lbl">workspace</div></div>
+      </div>
+    </div>
+    <div class="ent-card high">
+      <div class="ent-top">
+        <div class="ent-ico">✈</div>
+        <div><div class="ent-name">AZ1234</div><div class="ent-type">volo · ADS-B</div></div>
+        <div style="margin-left:auto;text-align:right"><div class="ent-score-big score-me">52</div><div class="ent-score-lbl">risk score</div></div>
+      </div>
+      <div class="ent-stats">
+        <div class="ent-st"><div class="ent-st-val" style="color:#fbbf24">4</div><div class="ent-st-lbl">segnali</div></div>
+        <div class="ent-st"><div class="ent-st-val" style="color:#fbbf24">1</div><div class="ent-st-lbl">alert</div></div>
+        <div class="ent-st"><div class="ent-st-val" style="color:#60a5fa">2</div><div class="ent-st-lbl">fonti</div></div>
+        <div class="ent-st"><div class="ent-st-val" style="color:#4ade80">1</div><div class="ent-st-lbl">workspace</div></div>
+      </div>
+    </div>
+    <div class="ent-card med">
+      <div class="ent-top">
+        <div class="ent-ico">🌐</div>
+        <div><div class="ent-name">techcorp-portal.it</div><div class="ent-type">dominio · sospetto</div></div>
+        <div style="margin-left:auto;text-align:right"><div class="ent-score-big score-me">41</div><div class="ent-score-lbl">risk score</div></div>
+      </div>
+      <div class="ent-stats">
+        <div class="ent-st"><div class="ent-st-val" style="color:#fbbf24">3</div><div class="ent-st-lbl">segnali</div></div>
+        <div class="ent-st"><div class="ent-st-val" style="color:#60a5fa">1</div><div class="ent-st-lbl">alert</div></div>
+        <div class="ent-st"><div class="ent-st-val" style="color:#60a5fa">2</div><div class="ent-st-lbl">fonti</div></div>
+        <div class="ent-st"><div class="ent-st-val" style="color:#4ade80">1</div><div class="ent-st-lbl">workspace</div></div>
+      </div>
+    </div>
+    <div class="ent-card med">
+      <div class="ent-top">
+        <div class="ent-ico">📧</div>
+        <div><div class="ent-name">admin@techcorp.it</div><div class="ent-type">email · monitorata</div></div>
+        <div style="margin-left:auto;text-align:right"><div class="ent-score-big score-lo">18</div><div class="ent-score-lbl">risk score</div></div>
+      </div>
+      <div class="ent-stats">
+        <div class="ent-st"><div class="ent-st-val" style="color:#4ade80">2</div><div class="ent-st-lbl">segnali</div></div>
+        <div class="ent-st"><div class="ent-st-val" style="color:#4ade80">0</div><div class="ent-st-lbl">alert</div></div>
+        <div class="ent-st"><div class="ent-st-val" style="color:#60a5fa">1</div><div class="ent-st-lbl">fonti</div></div>
+        <div class="ent-st"><div class="ent-st-val" style="color:#4ade80">1</div><div class="ent-st-lbl">workspace</div></div>
+      </div>
+    </div>
+    <div class="ent-card med">
+      <div class="ent-top">
+        <div class="ent-ico">🔑</div>
+        <div><div class="ent-name">CVE-2024-23897</div><div class="ent-type">vulnerabilità · critica</div></div>
+        <div style="margin-left:auto;text-align:right"><div class="ent-score-big score-me">63</div><div class="ent-score-lbl">risk score</div></div>
+      </div>
+      <div class="ent-stats">
+        <div class="ent-st"><div class="ent-st-val" style="color:#fbbf24">6</div><div class="ent-st-lbl">segnali</div></div>
+        <div class="ent-st"><div class="ent-st-val" style="color:#fbbf24">2</div><div class="ent-st-lbl">alert</div></div>
+        <div class="ent-st"><div class="ent-st-val" style="color:#60a5fa">5</div><div class="ent-st-lbl">fonti</div></div>
+        <div class="ent-st"><div class="ent-st-val" style="color:#4ade80">2</div><div class="ent-st-lbl">workspace</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE: ALERTS -->
+<div class="page" id="page-alerts">
+  <div style="display:flex;gap:8px;margin-bottom:6px">
+    <div class="fc on">Tutti (7)</div><div class="fc">Triggered (3)</div><div class="fc">Attivi (4)</div><div class="fc">Silenziati</div>
+    <button class="btn-sm primary" style="margin-left:auto" onclick="sendPrompt('Configura un nuovo alert sulla piattaforma Nodo per una nuova keyword o entità')">+ Nuovo alert ↗</button>
+  </div>
+  <div class="alert-cfg-grid">
+    <div class="alert-card triggered">
+      <div class="alert-card-hd"><div class="adot ad-r"></div><div class="alert-kw">techcorp.it — breach</div></div>
+      <div class="alert-meta"><span class="alert-tag">keyword</span><span class="alert-tag">dominio</span><span class="alert-tag">breach_db</span></div>
+      <div class="alert-desc">Alert scattato: dati aziendali presenti in dump underground pubblicato oggi. 850k record esposti. Correlazione confermata con entità principale del workspace.</div>
+      <div class="alert-time">TRIGGERED — 14:23 · 06/04/2026</div>
+      <div class="alert-footer"><div class="btn-sm primary">Esamina</div><div class="btn-sm">Segna letto</div><div class="btn-sm">Archivia</div></div>
+    </div>
+    <div class="alert-card triggered">
+      <div class="alert-card-hd"><div class="adot ad-r"></div><div class="alert-kw">Mario Rossi — giudiziario</div></div>
+      <div class="alert-meta"><span class="alert-tag">persona</span><span class="alert-tag">news</span><span class="alert-tag">giudiziario</span></div>
+      <div class="alert-desc">Menzione in articolo ANSA su sequestro GdF. 3 fonti indipendenti confermano la notizia. Risk score aggiornato da 55 a 74.</div>
+      <div class="alert-time">TRIGGERED — 13:47 · 06/04/2026</div>
+      <div class="alert-footer"><div class="btn-sm primary">Esamina</div><div class="btn-sm">Segna letto</div><div class="btn-sm">Archivia</div></div>
+    </div>
+    <div class="alert-card pending">
+      <div class="alert-card-hd"><div class="adot ad-a"></div><div class="alert-kw">keyword "sequestro" — soglia</div></div>
+      <div class="alert-meta"><span class="alert-tag">keyword</span><span class="alert-tag">frequenza</span></div>
+      <div class="alert-desc">Soglia superata: 8 occorrenze nelle ultime 2 ore (soglia configurata: 5). Cluster temporale correlato al caso #04.</div>
+      <div class="alert-time">IN MONITORAGGIO — soglia: 5 occ/2h</div>
+      <div class="alert-footer"><div class="btn-sm">Dettaglio</div><div class="btn-sm">Modifica soglia</div><div class="btn-sm danger">Silenzia</div></div>
+    </div>
+    <div class="alert-card">
+      <div class="alert-card-hd"><div class="adot ad-b"></div><div class="alert-kw">techcorp-portal.it — DNS</div></div>
+      <div class="alert-meta"><span class="alert-tag">dominio</span><span class="alert-tag">DNS</span><span class="alert-tag">typosquat</span></div>
+      <div class="alert-desc">Monitoraggio registrazione domini con pattern "techcorp*". Nuovo sottodominio rilevato con WHOIS anonimizzato e puntamento a CDN estera.</div>
+      <div class="alert-time">ATTIVO — rilevato 11:05 · 06/04/2026</div>
+      <div class="alert-footer"><div class="btn-sm primary">Esamina</div><div class="btn-sm">Modifica</div><div class="btn-sm danger">Elimina</div></div>
+    </div>
+    <div class="alert-card">
+      <div class="alert-card-hd"><div class="adot ad-b"></div><div class="alert-kw">AZ1234 — deviazione rotta</div></div>
+      <div class="alert-meta"><span class="alert-tag">volo</span><span class="alert-tag">ADS-B</span><span class="alert-tag">anomalia</span></div>
+      <div class="alert-desc">Alert su variazione >15% della rotta pianificata. Il volo ha deviato con atterraggio non schedulato. Passeggero VIP a bordo confermato da manifest.</div>
+      <div class="alert-time">ATTIVO — rilevato 12:31 · 06/04/2026</div>
+      <div class="alert-footer"><div class="btn-sm primary">Esamina</div><div class="btn-sm">Modifica</div><div class="btn-sm danger">Elimina</div></div>
+    </div>
+    <div class="alert-card">
+      <div class="alert-card-hd"><div class="adot ad-g"></div><div class="alert-kw">CVE-2024-* — Jenkins</div></div>
+      <div class="alert-meta"><span class="alert-tag">CVE</span><span class="alert-tag">vulnerabilità</span><span class="alert-tag">live</span></div>
+      <div class="alert-desc">Monitoraggio CVE critiche su tecnologie rilevate nell'infrastruttura TechCorp (Jenkins, Apache, OpenSSL). Aggiornamento automatico da NVD ogni 6 ore.</div>
+      <div class="alert-time">ATTIVO — aggiornato 08:00 · 06/04/2026</div>
+      <div class="alert-footer"><div class="btn-sm">Dettaglio</div><div class="btn-sm">Modifica</div><div class="btn-sm danger">Silenzia</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE: TIMELINE -->
+<div class="page" id="page-timeline">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+    <div style="font-size:10px;color:var(--t3);font-family:var(--mono)">Filtra:</div>
+    <div class="fc on">Oggi</div><div class="fc">7 giorni</div><div class="fc">30 giorni</div>
+    <div style="font-size:10px;color:var(--t3);font-family:var(--mono);margin-left:8px">Entità:</div>
+    <div class="fc on">Tutte</div><div class="fc">TechCorp</div><div class="fc">Mario Rossi</div><div class="fc">AZ1234</div>
+  </div>
+  <div class="tl-full">
+    <div class="tl-item-full">
+      <div class="tl-dot-full" style="background:#f87171"></div>
+      <div class="tl-content-full">
+        <div class="tl-time-full">14:23 · 06 apr 2026</div>
+        <div class="tl-title-full">Breach dump TechCorp — 850k record</div>
+        <div class="tl-body-full">File da 4.2GB pubblicato su forum underground. Contiene email, hash bcrypt, dati anagrafici. Correlazione con Mario Rossi (admin@techcorp.it presente nel dump).</div>
+        <div class="tl-sources"><span class="src sb">BREACH</span><span class="src ss">SOCIAL</span><span style="font-size:9px;color:var(--t3);font-family:var(--mono);margin-left:4px">3 fonti correlate</span></div>
+      </div>
+    </div>
+    <div class="tl-item-full">
+      <div class="tl-dot-full" style="background:#fbbf24"></div>
+      <div class="tl-content-full">
+        <div class="tl-time-full">13:47 · 06 apr 2026</div>
+        <div class="tl-title-full">GdF sequestra beni di Mario Rossi (4,2M€)</div>
+        <div class="tl-body-full">Decreto di sequestro preventivo eseguito. Notizia confermata da ANSA, Corriere, Repubblica. Mario Rossi è CFO di TechCorp S.p.A. Risk score +19.</div>
+        <div class="tl-sources"><span class="src sn">NEWS</span><span style="font-size:9px;color:var(--t3);font-family:var(--mono);margin-left:4px">ANSA + 2 fonti</span></div>
+      </div>
+    </div>
+    <div class="tl-item-full">
+      <div class="tl-dot-full" style="background:#c4b5fd"></div>
+      <div class="tl-content-full">
+        <div class="tl-time-full">12:31 · 06 apr 2026</div>
+        <div class="tl-title-full">AZ1234 — atterraggio non pianificato Catania</div>
+        <div class="tl-body-full">Deviazione rotta rilevata via ADS-B Exchange. Passeggero VIP a bordo secondo manifest. Possibile correlazione con notizia GdF delle 13:47.</div>
+        <div class="tl-sources"><span class="src sf">VOLO</span><span style="font-size:9px;color:var(--t3);font-family:var(--mono);margin-left:4px">ADS-B Exchange</span></div>
+      </div>
+    </div>
+    <div class="tl-item-full">
+      <div class="tl-dot-full" style="background:#60a5fa"></div>
+      <div class="tl-content-full">
+        <div class="tl-time-full">11:05 · 06 apr 2026</div>
+        <div class="tl-title-full">Dominio techcorp-portal.it registrato</div>
+        <div class="tl-body-full">Pattern typosquatting rilevato. WHOIS anonimizzato. AS13335. Potenziale infrastruttura per phishing o C2. Registrato 48h prima del breach.</div>
+        <div class="tl-sources"><span class="src so">OSINT</span><span style="font-size:9px;color:var(--t3);font-family:var(--mono);margin-left:4px">DNS Monitor · WHOIS</span></div>
+      </div>
+    </div>
+    <div class="tl-item-full">
+      <div class="tl-dot-full" style="background:#4ade80"></div>
+      <div class="tl-content-full">
+        <div class="tl-time-full">09:12 · 06 apr 2026</div>
+        <div class="tl-title-full">Spike social TechCorp — 340% menzioni negative</div>
+        <div class="tl-body-full">Crescita anomala iniziata alle 09:00. Bot score medio: 0.73. Cluster account creati tra 03:00 e 06:00 UTC. Possibile inizio campagna coordinata.</div>
+        <div class="tl-sources"><span class="src ss">SOCIAL</span><span style="font-size:9px;color:var(--t3);font-family:var(--mono);margin-left:4px">X/Twitter Monitor</span></div>
+      </div>
+    </div>
+    <div class="tl-item-full">
+      <div class="tl-dot-full" style="background:var(--t3)"></div>
+      <div class="tl-content-full">
+        <div class="tl-time-full">03 apr 2026</div>
+        <div class="tl-title-full">Prima comparsa dominio sospetto su forum underground</div>
+        <div class="tl-body-full">Thread su forum underground menziona dominio techcorp-portal.it 72h prima della registrazione ufficiale. Fonte: tier 3, non verificato.</div>
+        <div class="tl-sources"><span class="src sfr">FORUM</span><span style="font-size:9px;color:var(--acc);font-family:var(--mono);margin-left:4px">↔ correlato con evento 11:05</span></span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE: BRIEFING -->
+<div class="page" id="page-briefing">
+  <div class="g2">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="card">
+        <div class="card-hd"><span class="card-title">Genera briefing</span></div>
+        <div style="margin-bottom:12px">
+          <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--t3);font-family:var(--mono);margin-bottom:8px">Tipo di template</div>
+          <div class="template-grid">
+            <div class="tpl-card on" onclick="selectTpl(this)"><div class="tpl-ico" style="font-size:18px">▦</div><div class="tpl-name">Executive</div></div>
+            <div class="tpl-card" onclick="selectTpl(this)"><div class="tpl-ico" style="font-size:18px">◎</div><div class="tpl-name">Investigativo</div></div>
+            <div class="tpl-card" onclick="selectTpl(this)"><div class="tpl-ico" style="font-size:18px">◉</div><div class="tpl-name">Giornalistico</div></div>
+            <div class="tpl-card" onclick="selectTpl(this)"><div class="tpl-ico" style="font-size:18px">⬡</div><div class="tpl-name">Cyber</div></div>
+          </div>
+        </div>
+        <div class="briefing-form">
+          <div class="form-group">
+            <div class="form-label">Workspace / Caso</div>
+            <select class="form-select"><option>Caso #04 — TechCorp</option><option>Ops Ciclone</option><option>Cliente Alfa</option></select>
+          </div>
+          <div class="form-group">
+            <div class="form-label">Periodo</div>
+            <select class="form-select"><option>Oggi (06/04/2026)</option><option>Ultimi 7 giorni</option><option>Ultimi 30 giorni</option><option>Personalizzato</option></select>
+          </div>
+          <div class="form-group">
+            <div class="form-label">Includi entità</div>
+            <input class="form-input" type="text" value="TechCorp, Mario Rossi, AZ1234" />
+          </div>
+          <div class="form-group">
+            <div class="form-label">Livello classificazione</div>
+            <select class="form-select"><option>Riservato</option><option>Confidenziale</option><option>Pubblico</option></select>
+          </div>
+        </div>
+        <div class="form-group" style="margin-top:10px">
+          <div class="form-label">Note aggiuntive</div>
+          <textarea class="notes-area" rows="3" placeholder="Istruzioni specifiche per il briefing, focus tematici, destinatari...">Focus su correlazione breach-volo-GdF. Destinatario: C-suite. Evitare tecnicismi.</textarea>
+        </div>
+        <button class="gen-btn" onclick="sendPrompt('Genera un briefing executive PDF completo per il Caso #04 TechCorp con tutti gli alert critici di oggi, includi correlazione breach-volo-sequestro, risk score 74/100')">Genera briefing PDF ↗</button>
+      </div>
+      <div class="card">
+        <div class="card-hd"><span class="card-title">Report schedulati</span><span class="card-act">+ Nuovo</span></div>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <div style="display:flex;align-items:center;gap:10px;padding:8px;background:var(--bg3);border-radius:7px">
+            <div style="width:8px;height:8px;border-radius:50%;background:#4ade80"></div>
+            <div style="flex:1"><div style="font-size:12px;color:var(--t1)">Morning digest — tutti i workspace</div><div style="font-size:9px;color:var(--t3);font-family:var(--mono)">ogni giorno 07:00 · email</div></div>
+            <div class="btn-sm">Modifica</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:8px;background:var(--bg3);border-radius:7px">
+            <div style="width:8px;height:8px;border-radius:50%;background:#4ade80"></div>
+            <div style="flex:1"><div style="font-size:12px;color:var(--t1)">Weekly executive — Caso #04</div><div style="font-size:9px;color:var(--t3);font-family:var(--mono)">ogni lunedì 08:00 · email + PDF</div></div>
+            <div class="btn-sm">Modifica</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:8px;background:var(--bg3);border-radius:7px">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--t3)"></div>
+            <div style="flex:1"><div style="font-size:12px;color:var(--t2)">Monthly threat summary</div><div style="font-size:9px;color:var(--t3);font-family:var(--mono)">primo del mese · PDF</div></div>
+            <div class="btn-sm">Modifica</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="preview-doc">
+      <div class="doc-header">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+          <div class="doc-logo">No·do</div>
+          <div style="font-size:9px;font-family:var(--mono);color:var(--t3);background:rgba(239,68,68,.1);color:#f87171;padding:2px 8px;border-radius:3px">RISERVATO</div>
+        </div>
+        <div class="doc-title">Intelligence Brief — TechCorp</div>
+        <div class="doc-subtitle">EXECUTIVE SUMMARY · 06 apr 2026 · Caso #04 · Risk Score: 74/100</div>
+      </div>
+      <div class="doc-section">
+        <div class="doc-sec-title">Situazione attuale</div>
+        <div style="font-size:11px;color:var(--t2);line-height:1.6">TechCorp S.p.A. è soggetta a un <span style="color:#f87171;font-weight:500">rischio operativo ed informativo elevato</span>. In data odierna sono stati rilevati tre eventi critici correlati: un data breach di 850k record, un'indagine giudiziaria a carico del CFO e una deviazione anomala di volo. Il profilo di rischio è in peggioramento.</div>
+      </div>
+      <div class="doc-section">
+        <div class="doc-sec-title">Finding critici</div>
+        <div class="doc-finding">
+          <div class="doc-find-n" style="color:#f87171">01</div>
+          <div class="doc-find-txt"><strong>Data Breach (CRITICO).</strong> 850.000 record esposti su forum underground. Dati sensibili confermati: email, hash password, dati anagrafici. Fonte tier 1.</div>
+        </div>
+        <div class="doc-finding">
+          <div class="doc-find-n" style="color:#fbbf24">02</div>
+          <div class="doc-find-txt"><strong>Indagine GdF (ALTO).</strong> CFO Mario Rossi sotto sequestro beni per 4,2M€. Impatto su governance aziendale immediato. 3 fonti indipendenti.</div>
+        </div>
+        <div class="doc-finding">
+          <div class="doc-find-n" style="color:#60a5fa">03</div>
+          <div class="doc-find-txt"><strong>Infrastruttura sospetta (MEDIO).</strong> Dominio typosquatting registrato 48h prima del breach. Possibile vettore d'attacco pianificato.</div>
+        </div>
+      </div>
+      <div class="doc-section">
+        <div class="doc-sec-title">Raccomandazioni</div>
+        <div style="font-size:11px;color:var(--t2);line-height:1.8">
+          <div>1. Attivare crisis team e legal counsel entro 24h</div>
+          <div>2. Segnalare breach al Garante Privacy (72h GDPR)</div>
+          <div>3. Bloccare dominio techcorp-portal.it via registrar</div>
+          <div>4. Monitoraggio h24 reputazione online</div>
+        </div>
+      </div>
+      <div style="border-top:0.5px solid var(--b1);padding-top:10px;display:flex;justify-content:space-between">
+        <div style="font-size:9px;color:var(--t3);font-family:var(--mono)">Generato: 06/04/2026 14:45</div>
+        <div style="font-size:9px;color:var(--t3);font-family:var(--mono)">Nodo OSINT Platform · v2.4</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE: COMMUNITY -->
+<div class="page" id="page-community">
+  <div class="comm-grid">
+    <div>
+      <div style="display:flex;gap:6px;margin-bottom:12px">
+        <div class="fc on">Tutti</div><div class="fc">Intel</div><div class="fc">Metodologia</div><div class="fc">Breach</div><div class="fc">Tool</div>
+        <button class="btn-sm primary" style="margin-left:auto" onclick="sendPrompt('Crea un nuovo post per la community Nodo OSINT condividendo una tecnica OSINT interessante')">+ Nuovo post ↗</button>
+      </div>
+      <div class="post-list">
+        <div class="post">
+          <div class="post-hd">
+            <div class="post-av" style="background:linear-gradient(135deg,#3b82f6,#8b5cf6)">LA</div>
+            <div><div class="post-author">Lorenzo A.</div><div class="post-role">Senior Analyst · Roma</div></div>
+            <span class="post-cat cat-intel">intelligence</span>
+            <div class="post-time">2h fa</div>
+          </div>
+          <div class="post-title">Pattern di correlazione breach → social spike: analisi di 14 casi italiani</div>
+          <div class="post-body">Ho analizzato 14 data breach italiani del 2024-25 e in 11 casi su 14 si è verificato un social spike coordinato entro 6-12h dalla pubblicazione del dump. Il gap temporale medio è 8.3h. Condivido metodologia e dataset anonimizzato.</div>
+          <div class="post-footer">
+            <div class="post-stat">▲ 47</div>
+            <div class="post-stat">◇ 12 commenti</div>
+            <div class="post-stat">⬡ 8 workspace</div>
+          </div>
+        </div>
+        <div class="post">
+          <div class="post-hd">
+            <div class="post-av" style="background:linear-gradient(135deg,#14b8a6,#0d9488)">GF</div>
+            <div><div class="post-author">Giulia F.</div><div class="post-role">Threat Analyst · Milano</div></div>
+            <span class="post-cat cat-breach">breach</span>
+            <div class="post-time">5h fa</div>
+          </div>
+          <div class="post-title">TechCorp breach: correlazioni con infrastruttura C2 trovate — thread</div>
+          <div class="post-body">Il dominio techcorp-portal.it risolve a un IP già visto in campagne italiane Q1 2026. Stesso ASN di 3 altri domini usati in attacchi supply chain. Thread completo con IoC condivisibili.</div>
+          <div class="post-footer">
+            <div class="post-stat">▲ 91</div>
+            <div class="post-stat">◇ 34 commenti</div>
+            <div class="post-stat">⬡ 22 workspace</div>
+          </div>
+        </div>
+        <div class="post">
+          <div class="post-hd">
+            <div class="post-av" style="background:linear-gradient(135deg,#f59e0b,#d97706)">MR</div>
+            <div><div class="post-author">Marco R.</div><div class="post-role">OSINT Researcher · Torino</div></div>
+            <span class="post-cat cat-method">metodologia</span>
+            <div class="post-time">1g fa</div>
+          </div>
+          <div class="post-title">Guida: come usare ADS-B Exchange per il monitoraggio di voli VIP in contesti investigativi</div>
+          <div class="post-body">Tecniche avanzate di correlazione tra manifest, ADS-B e open data giudiziari. Ho sviluppato un workflow in 5 step che permette di collegare deviazioni di rotta a eventi giudiziari in corso.</div>
+          <div class="post-footer">
+            <div class="post-stat">▲ 128</div>
+            <div class="post-stat">◇ 41 commenti</div>
+            <div class="post-stat">⬡ 35 workspace</div>
+          </div>
+        </div>
+        <div class="post">
+          <div class="post-hd">
+            <div class="post-av" style="background:linear-gradient(135deg,#ec4899,#db2777)">SF</div>
+            <div><div class="post-author">Sara F.</div><div class="post-role">Giornalista Investigativa</div></div>
+            <span class="post-cat cat-tool">tool</span>
+            <div class="post-time">2g fa</div>
+          </div>
+          <div class="post-title">Script Python open source per deduplicazione automatica feed OSINT eterogenei</div>
+          <div class="post-body">Ho rilasciato su GitHub un tool di deduplicazione fuzzy per feed RSS + Telegram + forum. Riduce il rumore del 35-40% nei test. Integrazione nativa con formato export Nodo.</div>
+          <div class="post-footer">
+            <div class="post-stat">▲ 203</div>
+            <div class="post-stat">◇ 67 commenti</div>
+            <div class="post-stat">⬡ 89 workspace</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div class="leaderboard">
+        <div class="card-hd" style="margin-bottom:10px"><span class="card-title">Top contributor</span><span class="card-act">Questo mese</span></div>
+        <div class="lb-row">
+          <div class="lb-rank" style="color:#fbbf24">01</div>
+          <div class="lb-av" style="background:linear-gradient(135deg,#3b82f6,#8b5cf6)">LA</div>
+          <div class="lb-name">Lorenzo A.</div>
+          <div class="lb-pts">2.840 pt</div>
+        </div>
+        <div class="lb-row">
+          <div class="lb-rank" style="color:#94a3b8">02</div>
+          <div class="lb-av" style="background:linear-gradient(135deg,#ec4899,#db2777)">SF</div>
+          <div class="lb-name">Sara F.</div>
+          <div class="lb-pts">2.210 pt</div>
+        </div>
+        <div class="lb-row">
+          <div class="lb-rank" style="color:#94a3b8">03</div>
+          <div class="lb-av" style="background:linear-gradient(135deg,#f59e0b,#d97706)">MR</div>
+          <div class="lb-name">Marco R.</div>
+          <div class="lb-pts">1.970 pt</div>
+        </div>
+        <div class="lb-row">
+          <div class="lb-rank">04</div>
+          <div class="lb-av" style="background:linear-gradient(135deg,#14b8a6,#0d9488)">GF</div>
+          <div class="lb-name">Giulia F.</div>
+          <div class="lb-pts">1.650 pt</div>
+        </div>
+        <div class="lb-row" style="border-bottom:1px solid rgba(59,130,246,.2)">
+          <div class="lb-rank" style="color:var(--acc)">—</div>
+          <div class="lb-av" style="background:linear-gradient(135deg,#3b82f6,#8b5cf6)">MA</div>
+          <div class="lb-name">Marco A. (tu)</div>
+          <div class="lb-pts" style="color:var(--t3)">340 pt</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-hd"><span class="card-title">Tag popolari</span></div>
+        <div class="tag-list" style="margin-top:0">
+          <span class="tag" style="background:rgba(239,68,68,.08);color:#f87171;border-color:rgba(239,68,68,.2)">#breach</span>
+          <span class="tag" style="background:rgba(59,130,246,.08);color:#60a5fa;border-color:rgba(59,130,246,.2)">#osint</span>
+          <span class="tag" style="background:rgba(167,139,250,.08);color:#c4b5fd;border-color:rgba(167,139,250,.2)">#italia</span>
+          <span class="tag">#darkweb</span><span class="tag">#phishing</span><span class="tag">#voli</span>
+          <span class="tag">#threat-intel</span><span class="tag">#social-media</span><span class="tag">#GdF</span>
+          <span class="tag">#CVE</span><span class="tag">#dns-monitor</span><span class="tag">#python</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-hd"><span class="card-title">Membri online</span></div>
+        <div style="display:flex;gap:-4px;margin-top:4px">
+          <div style="display:flex;gap:4px;flex-wrap:wrap">
+            <div style="width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;border:1.5px solid var(--bg2)">LA</div>
+            <div style="width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#14b8a6,#0d9488);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;border:1.5px solid var(--bg2)">GF</div>
+            <div style="width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#d97706);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;border:1.5px solid var(--bg2)">MR</div>
+            <div style="width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#a78bfa,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;border:1.5px solid var(--bg2)">AL</div>
+            <div style="width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#22c55e,#15803d);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;border:1.5px solid var(--bg2)">FP</div>
+            <div style="width:26px;height:26px;border-radius:50%;background:var(--bg3);border:1.5px solid var(--b2);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--t3);font-family:var(--mono)">+18</div>
+          </div>
+        </div>
+        <div style="font-size:10px;color:var(--t3);font-family:var(--mono);margin-top:6px">23 analisti online ora</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE: WORKSPACE -->
+<div class="page" id="page-workspace">
+  <div class="ws-detail-header">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:10px;height:10px;border-radius:50%;background:var(--acc)"></div>
+      <div class="ws-title-big">Caso #04 — TechCorp S.p.A.</div>
+      <div style="margin-left:auto;display:flex;gap:6px">
+        <div class="btn-sm primary">Esporta dati</div>
+        <div class="btn-sm" onclick="sendPrompt('Genera briefing PDF per il workspace Caso #04 TechCorp')">Genera briefing ↗</div>
+      </div>
+    </div>
+    <div class="ws-meta">
+      <span class="ws-badge">Aperto: 15 mar 2026</span>
+      <span class="ws-badge">142 segnali</span>
+      <span class="ws-badge">23 entità</span>
+      <span class="ws-badge" style="color:#f87171;border-color:rgba(239,68,68,.2)">Risk: 74/100</span>
+      <span class="ws-badge">4 collaboratori</span>
+      <span class="ws-badge">Caso investigativo</span>
+    </div>
+  </div>
+  <div class="g2">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="card">
+        <div class="card-hd"><span class="card-title">Note del caso</span><span class="card-act">Salva</span></div>
+        <textarea class="notes-area" rows="6">CASO #04 — TECHCORP S.P.A.
+Obiettivo: monitoraggio reputazionale e threat intelligence per conto del cliente.
+
+SVILUPPI PRINCIPALI:
+- 06/04: Breach 850k record confermato. Alert GdF su CFO Rossi.
+- 03/04: Prima comparsa dominio sospetto su forum underground.
+- Correlazione breach-volo-sequestro da verificare con team legale.
+
+NEXT STEPS:
+- Notifica Garante Privacy entro 72h (scadenza: 09/04 14:23)
+- Contatto crisis communication team
+- Analisi approfondita IoC con Giulia F. (community)</textarea>
+      </div>
+      <div class="card">
+        <div class="card-hd"><span class="card-title">Tag del workspace</span><span class="card-act">+ Aggiungi</span></div>
+        <div class="tag-list">
+          <span class="tag" style="background:rgba(239,68,68,.08);color:#f87171;border-color:rgba(239,68,68,.2)">#breach</span>
+          <span class="tag" style="background:rgba(245,158,11,.08);color:#fbbf24;border-color:rgba(245,158,11,.2)">#giudiziario</span>
+          <span class="tag" style="background:rgba(59,130,246,.08);color:#60a5fa;border-color:rgba(59,130,246,.2)">#techcorp</span>
+          <span class="tag">#priorità-alta</span>
+          <span class="tag">#gdpr</span>
+          <span class="tag">#cfr-giulia</span>
+          <span class="tag">#volo-correlato</span>
+          <span class="tag" style="color:var(--acc);border-color:rgba(59,130,246,.25)">+ tag</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-hd"><span class="card-title">Esportazione dati</span></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div class="btn-sm primary" style="text-align:center;padding:8px;cursor:pointer" onclick="sendPrompt('Esporta i dati del workspace Caso #04 in formato JSON strutturato per integrazione con sistemi esterni')">Export JSON ↗</div>
+          <div class="btn-sm" style="text-align:center;padding:8px">Export CSV</div>
+          <div class="btn-sm" style="text-align:center;padding:8px" onclick="sendPrompt('Genera report PDF completo del workspace Caso #04 con tutti i dati, timeline e correlazioni')">Report PDF ↗</div>
+          <div class="btn-sm" style="text-align:center;padding:8px">STIX 2.1</div>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="card">
+        <div class="card-hd"><span class="card-title">Collaboratori</span><span class="card-act">+ Invita</span></div>
+        <div style="display:flex;flex-direction:column">
+          <div class="collab-row">
+            <div class="collab-av" style="background:linear-gradient(135deg,#3b82f6,#8b5cf6)">MA</div>
+            <div class="collab-name">Marco A.</div>
+            <div class="collab-role">Lead analyst · tu</div>
+          </div>
+          <div class="collab-row">
+            <div class="collab-av" style="background:linear-gradient(135deg,#14b8a6,#0d9488)">GF</div>
+            <div class="collab-name">Giulia F.</div>
+            <div class="collab-role">Threat analyst</div>
+          </div>
+          <div class="collab-row">
+            <div class="collab-av" style="background:linear-gradient(135deg,#f59e0b,#d97706)">AL</div>
+            <div class="collab-name">Andrea L.</div>
+            <div class="collab-role">Legal advisor · read-only</div>
+          </div>
+          <div class="collab-row" style="border-bottom:none">
+            <div class="collab-av" style="background:var(--bg4);border:0.5px solid var(--b2)">+</div>
+            <div class="collab-name" style="color:var(--acc)">Invita collaboratore</div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-hd"><span class="card-title">Tutti i workspace</span><span class="card-act" onclick="sendPrompt('Crea un nuovo workspace sulla piattaforma Nodo')">+ Nuovo ↗</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;align-items:center;gap:9px;padding:8px;background:rgba(59,130,246,.06);border:0.5px solid rgba(59,130,246,.2);border-radius:7px">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--acc)"></div>
+            <div style="flex:1"><div style="font-size:12px;color:var(--t1)">Caso #04 — TechCorp</div><div style="font-size:9px;color:var(--t3);font-family:var(--mono)">142 segnali · Risk 74</div></div>
+            <div style="font-size:9px;font-family:var(--mono);color:var(--t3)">attivo</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:9px;padding:8px;background:var(--bg3);border-radius:7px">
+            <div style="width:8px;height:8px;border-radius:50%;background:#f87171"></div>
+            <div style="flex:1"><div style="font-size:12px;color:var(--t1)">Ops Ciclone</div><div style="font-size:9px;color:var(--t3);font-family:var(--mono)">67 segnali · Risk 51</div></div>
+            <div style="font-size:9px;font-family:var(--mono);color:var(--t3)">attivo</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:9px;padding:8px;background:var(--bg3);border-radius:7px">
+            <div style="width:8px;height:8px;border-radius:50%;background:#fbbf24"></div>
+            <div style="flex:1"><div style="font-size:12px;color:var(--t1)">Cliente Alfa</div><div style="font-size:9px;color:var(--t3);font-family:var(--mono)">23 segnali · Risk 22</div></div>
+            <div style="font-size:9px;font-family:var(--mono);color:var(--t3)">standby</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE: SETTINGS -->
+<div class="page" id="page-settings">
+  <div class="settings-grid">
+    <div class="settings-nav">
+      <div class="sn-item on">Profilo</div>
+      <div class="sn-item">Notifiche</div>
+      <div class="sn-item">Fonti & feed</div>
+      <div class="sn-item">Alert globali</div>
+      <div class="sn-item">Integrazioni</div>
+      <div class="sn-item">Privacy</div>
+      <div class="sn-item">Team & accessi</div>
+      <div class="sn-item">API & export</div>
+    </div>
+    <div class="settings-panel">
+      <div class="sp-title">Impostazioni profilo & notifiche</div>
+      <div class="sp-desc">Configura il tuo profilo operativo, le preferenze di notifica e i canali di ricezione degli alert.</div>
+      <div style="margin-bottom:16px">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--t3);font-family:var(--mono);margin-bottom:10px">Profilo</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div class="form-group"><div class="form-label">Nome</div><input class="form-input" value="Marco Antonelli" /></div>
+          <div class="form-group"><div class="form-label">Email</div><input class="form-input" value="analyst@nodo.io" /></div>
+          <div class="form-group"><div class="form-label">Ruolo</div><input class="form-input" value="Senior OSINT Analyst" /></div>
+          <div class="form-group"><div class="form-label">Organizzazione</div><input class="form-input" value="Studio Analisi Alfa" /></div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--t3);font-family:var(--mono);margin-bottom:10px">Notifiche & Alert</div>
+        <div class="setting-row">
+          <div><div class="sr-label">Alert critici in tempo reale</div><div class="sr-sub">Push + email per risk score ≥ 80</div></div>
+          <div class="toggle on" onclick="this.classList.toggle('on')"><div class="toggle-dot"></div></div>
+        </div>
+        <div class="setting-row">
+          <div><div class="sr-label">Morning digest email</div><div class="sr-sub">Ogni giorno alle 07:00</div></div>
+          <div class="toggle on" onclick="this.classList.toggle('on')"><div class="toggle-dot"></div></div>
+        </div>
+        <div class="setting-row">
+          <div><div class="sr-label">Notifiche community</div><div class="sr-sub">Risposte ai tuoi post e menzioni</div></div>
+          <div class="toggle" onclick="this.classList.toggle('on')"><div class="toggle-dot"></div></div>
+        </div>
+        <div class="setting-row">
+          <div><div class="sr-label">Deduplicazione automatica</div><div class="sr-sub">Rimuovi segnali duplicati dai feed</div></div>
+          <div class="toggle on" onclick="this.classList.toggle('on')"><div class="toggle-dot"></div></div>
+        </div>
+        <div class="setting-row">
+          <div><div class="sr-label">Valutazione affidabilità automatica</div><div class="sr-sub">Applica score tier alle nuove fonti</div></div>
+          <div class="toggle on" onclick="this.classList.toggle('on')"><div class="toggle-dot"></div></div>
+        </div>
+        <div class="setting-row">
+          <div><div class="sr-label">Modalità dark only</div><div class="sr-sub">Forza tema scuro in tutti i contesti</div></div>
+          <div class="toggle on" onclick="this.classList.toggle('on')"><div class="toggle-dot"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+
+<script>
+function nav(page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const el=document.getElementById('page-'+page);
+  if(el)el.classList.add('active');
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  const pageMap={dashboard:0,feed:1,entities:2,alerts:3,timeline:4,briefing:5,community:6,workspace:7,settings:9};
+  const navBtns=document.querySelectorAll('.ni');
+  if(pageMap[page]!==undefined)navBtns[pageMap[page]]&&navBtns[pageMap[page]].classList.add('on');
+  const sideMap={feed:1,entities:2,alerts:3};
+  document.querySelectorAll('.si').forEach(s=>s.classList.remove('on'));
+  document.getElementById('MAIN').scrollTop=0;
+}
+function navFeed(cat){
+  nav('feed');
+  document.querySelectorAll('.fc').forEach(f=>f.classList.remove('on'));
+  const filters=document.querySelectorAll('#feed-filters .fc');
+  const catMap={all:0,news:2,breach:3,osint:4,flight:5,social:6,nv:7};
+  if(catMap[cat]!==undefined&&filters[catMap[cat]])filters[catMap[cat]].classList.add('on');
+}
+function filterFeed(cat,el){
+  document.querySelectorAll('#feed-filters .fc').forEach(f=>f.classList.remove('on'));
+  el.classList.add('on');
+  const items=document.querySelectorAll('#feed-items .fi');
+  items.forEach(item=>{
+    if(cat==='all'){item.style.display='block';return;}
+    const d=item.getAttribute('data-cat')||'';
+    item.style.display=d.includes(cat)?'block':'none';
+  });
+}
+function switchWS(el,name){
+  document.querySelectorAll('.wsc').forEach(w=>w.classList.remove('on'));
+  el.classList.add('on');
+}
+function selectTpl(el){
+  document.querySelectorAll('.tpl-card').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');
+}
+document.querySelectorAll('.si').forEach(s=>{
+  s.addEventListener('click',function(){
+    document.querySelectorAll('.si').forEach(x=>x.classList.remove('on'));
+    this.classList.add('on');
+  });
+});
+</script>
